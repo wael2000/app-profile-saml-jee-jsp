@@ -14,7 +14,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-
+<%@ page import="java.net.*" %>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -27,7 +27,20 @@
     </head>
     <body>
         <jsp:useBean id="controller" class="org.keycloak.quickstart.profilejee.Controller" scope="request"/>
-        
+        <%
+        String serverAddress;
+        serverAddress = "error";
+        try {
+            InetAddress inetAddress;
+            inetAddress = java.net.InetAddress.getLocalHost();
+            serverAddress = inetAddress.toString();
+        } catch (java.net.UnknownHostException e) {
+
+            e.printStackTrace();
+        }
+        %>
+
+
         <c:set var="isLoggedIn" value="<%=controller.isLoggedIn(request)%>"/>
         <c:if test="${isLoggedIn}">
             <c:redirect url="profile.jsp"/>
@@ -41,6 +54,12 @@
             <div class="content">
                 <div class="message">Please login</div>
             </div>
+            <div class="content"> <%=serverAddress %> </div>
         </div>
+
+
+
+
+
     </body>
 </html>
